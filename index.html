@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script>
+  (function() {
+    var GA_ID = 'G-C80B5PT409';
+    var isLocalDev = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+    if (isLocalDev) return;
+    try { if (/[?&]no_ga=0/.test(location.search)) localStorage.removeItem('no_ga'); if (/[?&]no_ga=1/.test(location.search)) localStorage.setItem('no_ga', '1'); if (localStorage.getItem('no_ga') === '1') return; } catch (e) {}
+    var gaQ = new URLSearchParams(location.search); if (gaQ.get('obs') === '1' || gaQ.get('no_ga') === '1') return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+    document.addEventListener('click', function(e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="booth.pm"]') : null;
+      if (!a) return;
+      gtag('event', 'booth_click', { link_url: a.href, link_id: a.id || '', link_text: (a.textContent || '').trim().slice(0, 40) });
+    });
+  })();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="サークル名メーカーは、同人サークル名・ペンネームの候補を無料でたくさん出せるツールです。好きな言葉と雰囲気(かわいい・おしゃれ・かっこいい・和風・ゆるい)を選ぶだけ。読みや文字数のチェック、Google・X・pixivでのかぶり検索、ロゴ風の見比べつき。サークル名の決め方・タブーも解説。登録不要・スマホでも使えます。">
+<link rel="canonical" href="https://uuhai0625.github.io/circle-name-maker/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="サークル名メーカー・ペンネームメーカー|無料で候補出し(決め方・タブー・かぶり検索)">
+<meta property="og:description" content="サークル名メーカーは、同人サークル名・ペンネームの候補を無料でたくさん出せるツールです。好きな言葉と雰囲気(かわいい・おしゃれ・かっこいい・和風・ゆるい)を選ぶだけ。読みや文字数のチェック、Google・X・pixivでのかぶり検索、ロゴ風の見比べつき。サークル名の決め方・タブーも解説。登録不要・スマホでも使えます。">
+<meta property="og:url" content="https://uuhai0625.github.io/circle-name-maker/">
+<meta property="og:image" content="https://uuhai0625.github.io/circle-name-maker/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>サークル名メーカー・ペンネームメーカー|無料で候補出し(決め方・タブー・かぶり検索)</title>
+<style>
+  :root {
+    --bg: #f3f8f7;
+    --panel: #ffffff;
+    --border: #d3e6e2;
+    --field-border: #5f7a75;
+    --text: #1f2d2b;
+    --muted: #4f625f;
+    --accent: #0f766e;
+    --accent-dark: #0b524c;
+    --soft: #e2f3f0;
+    --ng: #b3261e;
+    --locked: #a9c9c3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  header { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; padding: 24px 20px 18px; text-align: center; }
+  header h1 { margin: 0 0 6px; font-size: 1.35rem; }
+  header p { margin: 0; font-size: .9rem; }
+  main { max-width: 1040px; margin: 0 auto; padding: 22px 16px 50px; }
+  main > * { min-width: 0; }
+  section.card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 18px; }
+  section.card h2 { margin: 0 0 6px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .desc { color: var(--muted); font-size: .84rem; margin: 0 0 12px; }
+  .fine { color: var(--muted); font-size: .8rem; margin: 8px 0 0; }
+  .badge { display: inline-block; font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: #fff1cc; color: #7a5600; font-weight: bold; }
+  .hidden { display: none !important; }
+  label.field { display: block; margin-bottom: 12px; }
+  .lbl { font-size: .85rem; font-weight: bold; display: block; }
+  .hint { font-size: .78rem; color: var(--muted); font-weight: normal; display: block; margin-top: 2px; }
+  input[type=text], select, textarea { width: 100%; margin-top: 5px; padding: 8px 10px; min-height: 44px; border: 1px solid var(--field-border); border-radius: 8px; font-size: 1rem; font-family: inherit; background: #fff; color: var(--text); }
+  input[type=color] { width: 56px; height: 44px; padding: 2px; border: 1px solid var(--field-border); border-radius: 8px; background: #fff; }
+  .words { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .seg label { min-height: 44px; display: flex; align-items: center; gap: 6px; border: 1px solid var(--field-border); border-radius: 8px; padding: 6px 12px; font-size: .86rem; cursor: pointer; background: #fff; }
+  .seg label.on { border-color: var(--accent); background: var(--soft); font-weight: bold; }
+  .seg label:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .seg .lockchip { min-height: 44px; display: flex; align-items: center; border: 1px dashed var(--locked); border-radius: 8px; padding: 6px 12px; font-size: .82rem; color: var(--muted); }
+  fieldset.plain { border: none; padding: 0; margin: 0 0 12px; min-width: 0; }
+  fieldset.plain legend { font-size: .85rem; font-weight: bold; padding: 0; margin-bottom: 5px; }
+  label.check { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: .86rem; cursor: pointer; }
+  label.check input { width: 20px; height: 20px; margin: 0; flex-shrink: 0; }
+  .btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .btn { min-height: 44px; padding: 9px 16px; border-radius: 8px; font-size: .88rem; cursor: pointer; border: 1px solid var(--field-border); background: #fff; color: var(--text); font-family: inherit; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: bold; }
+  .btn.small { min-height: 40px; padding: 6px 10px; font-size: .8rem; }
+  .btn[aria-pressed="true"] { background: #fff6d6; border-color: #b8860b; font-weight: bold; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+  .status { font-size: .82rem; color: var(--muted); margin-top: 6px; min-height: 1.2em; }
+  .status.err { color: var(--ng); font-weight: bold; }
+  .cands { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .cand { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: #fff; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .cand .nm { font-size: 1.2rem; font-weight: bold; word-break: break-all; line-height: 1.4; }
+  .cand .rd { font-size: .8rem; color: var(--muted); }
+  .cand .notes { list-style: none; margin: 2px 0 0; padding: 0; font-size: .78rem; color: #7a4b00; }
+  .cand .acts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .cand details { font-size: .8rem; margin-top: 4px; }
+  .cand details summary { cursor: pointer; color: var(--accent-dark); min-height: 44px; display: list-item; padding-top: 10px; }
+  .cand details a { display: inline-flex; align-items: center; min-height: 44px; margin-right: 14px; color: var(--accent-dark); }
+  .favs { list-style: none; margin: 10px 0 0; padding: 0; }
+  .favs li { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding: 8px 0; }
+  .favs .nm { font-weight: bold; flex: 1 1 160px; word-break: break-all; }
+  .favs .rd { font-size: .78rem; color: var(--muted); font-weight: normal; display: block; }
+  .logo-wrap { border: 1px solid var(--border); border-radius: 8px; padding: 10px; background: repeating-conic-gradient(#eef3f2 0% 25%, #fff 0% 50%) 50% / 20px 20px; display: flex; justify-content: center; }
+  .logo-wrap canvas { max-width: 100%; max-height: 70vh; width: auto; height: auto; display: block; }
+  .back { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-dark); font-size: .85rem; }
+  .examples { columns: 2 220px; }
+  .row2 { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .row2 > label.field { flex: 1 1 200px; margin-bottom: 0; }
+  .guide { font-size: .88rem; }
+  .guide h3 { font-size: .95rem; margin: 14px 0 4px; }
+  .guide ul, .guide ol { padding-left: 1.3em; margin: 6px 0; }
+  .guide li { margin: 4px 0; }
+  .locked-panel { border: 1px dashed var(--locked); border-radius: 10px; padding: 16px; text-align: center; color: var(--muted); background: #f8fcfb; }
+  .locked-panel .lead { color: var(--text); font-weight: bold; }
+  .locked-panel .feat-list { text-align: left; max-width: 620px; margin: 10px auto; font-size: .85rem; padding-left: 1.2em; }
+  .buy-btn { display: inline-block; margin-top: 8px; background: var(--accent-dark); color: #fff; font-weight: bold; padding: 11px 22px; border-radius: 999px; text-decoration: none; font-size: .9rem; }
+  
+  footer { max-width: 1040px; margin: 0 auto; padding: 0 16px 40px; font-size: .8rem; color: var(--muted); }
+  footer a { color: var(--muted); }
+  @media (max-width: 640px) {
+    .words { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    section.card { padding: 16px 14px; }
+  }
+</style>
+<!--ANSHIN_CSS_START--><style>:root{--anshin-w:1008px;--anshin-pad:16px}.anshin-strip,.anshin{box-sizing:border-box;width:min(var(--anshin-w),calc(100% - 2 * var(--anshin-pad)));margin-left:auto;margin-right:auto}.anshin-strip{list-style:none;margin-top:10px;margin-bottom:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:.8rem;line-height:1.5}.anshin-strip li{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:1px solid rgba(20,120,90,.45);border-radius:999px;background:rgba(20,120,90,.07)}.anshin-strip li.anshin-more{border:0;background:none;padding:3px 2px}.anshin-strip a,.anshin a{color:inherit}.anshin{margin-top:18px;margin-bottom:18px;padding:14px 18px;border:1px solid rgba(20,120,90,.45);border-radius:10px;background:rgba(20,120,90,.05);font-size:.86rem;line-height:1.7}.anshin h2{font-size:1rem;margin:0 0 6px}.anshin p{margin:0 0 6px}.anshin ul{margin:0;padding-left:1.2em}.anshin li{margin:3px 0}.anshin details{margin-top:6px}.anshin summary{cursor:pointer;font-weight:bold}.anshin .anshin-meta{margin:8px 0 0;font-size:.8rem;opacity:.85}@media print{.anshin,.anshin-strip{display:none!important}}</style><!--ANSHIN_CSS_END-->
+<!--UPSELL_CSS_START--><style>.upsell-top{box-sizing:border-box;width:min(var(--anshin-w,880px),calc(100% - 2 * var(--anshin-pad,16px)));margin:12px auto 0;font-size:.85rem;line-height:1.6}.upsell-top a{color:inherit}.upsell-assure{list-style:none;margin:12px 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.8rem;line-height:1.5}.upsell-assure li{padding:3px 10px;border:1px solid rgba(20,120,90,.45);border-radius:12px;background:rgba(20,120,90,.06)}.upsell-terms{margin:8px 0 0;font-size:.78rem;line-height:1.6;opacity:.85}.upsell-toast{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:9999;box-sizing:border-box;width:min(520px,calc(100% - 24px));padding:14px 56px 14px 16px;border-radius:12px;background:#fff;color:#222;border:1px solid #c9c2d6;box-shadow:0 6px 24px rgba(0,0,0,.18);font-size:.88rem;line-height:1.6}.upsell-toast p{margin:0 0 6px;font-weight:bold}.upsell-toast ul{margin:0 0 10px;padding-left:1.2em}.upsell-toast li{margin:2px 0}.upsell-toast .upsell-note{display:block;margin-top:6px;font-size:.75rem;color:#555}.upsell-toast .upsell-go{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:8px;background:#c9283e;color:#fff;font-weight:bold;text-decoration:none}.upsell-toast .upsell-go:focus-visible,.upsell-toast .upsell-x:focus-visible{outline:3px solid #2560c4;outline-offset:2px}.upsell-toast .upsell-x{position:absolute;top:4px;right:4px;width:44px;height:44px;border:0;border-radius:8px;background:transparent;color:#555;font-size:1.3rem;line-height:1;cursor:pointer}.upsell-inline{white-space:nowrap;color:inherit;text-decoration:underline;text-underline-offset:2px}@media print{.upsell-top,.upsell-assure,.upsell-terms,.upsell-toast,.upsell-inline{display:none!important}}</style><!--UPSELL_CSS_END-->
+</head>
+<body>
+
+<header>
+  <h1>サークル名メーカー・ペンネームメーカー</h1>
+  <p>好きな言葉と雰囲気を選ぶだけで、同人サークル名・ペンネームの候補を1回に12個、押すたびに新しく出します。かぶりの確認やロゴ風の見比べも。登録不要・スマホでも使えます</p>
+</header>
+<!--ANSHIN_STRIP_START-->
+<ul class="anshin-strip" aria-label="データの扱い">
+  <li><span aria-hidden="true">✓</span> 入力内容はこの端末の中だけで処理(検索ボタンを除く)</li>
+  <li><span aria-hidden="true">✓</span> 登録・ログイン不要</li>
+  <li><span aria-hidden="true">✓</span> 仕組みを公開中</li>
+  <li class="anshin-more"><a href="#anshin">データの扱いをくわしく</a></li>
+</ul>
+<!--ANSHIN_STRIP_END-->
+<!--UPSELL_TOP_START--><p class="upsell-top no-print" id="upsellTop">このページは無料のまま使えます。機能を増やしたい方は <a href="#pro-section">買い切り版(¥100・1回払い)<span aria-hidden="true"> ↓</span></a></p><!--UPSELL_TOP_END-->
+
+<main>
+
+  <section class="card" id="input-card">
+    <h2>① 何の名前を考える?</h2>
+    <fieldset class="plain">
+      <legend>作るもの</legend>
+      <div class="seg" id="kindSeg">
+        <label class="on"><input type="radio" name="kind" value="circle" checked> サークル名</label>
+        <label><input type="radio" name="kind" value="pen"> ペンネーム</label>
+      </div>
+    </fieldset>
+
+    <fieldset class="plain">
+      <legend>入れたい言葉(空欄でもOK)</legend>
+      <p class="desc" style="margin-bottom:4px;">好きなもの・ジャンルにちなんだ言葉・自分の名前の一部など。公式の作品名やキャラ名は、そのまま入れないのがおすすめです(下の「決め方」を参照)。</p>
+      <div class="words" id="wordBox">
+        <label class="field"><span class="lbl">言葉1</span><input type="text" class="word" maxlength="12" placeholder="例: ねこ"></label>
+        <label class="field"><span class="lbl">言葉2</span><input type="text" class="word" maxlength="12" placeholder="例: 月"></label>
+        <label class="field"><span class="lbl">言葉3</span><input type="text" class="word" maxlength="12" placeholder="例: ソーダ"></label>
+        
+      </div>
+    </fieldset>
+
+    <fieldset class="plain">
+      <legend>雰囲気(いくつでも。選ばなければ全部から)</legend>
+      <div class="seg" id="moodSeg">
+        <label><input type="checkbox" name="mood" value="cute"> かわいい</label>
+        <label><input type="checkbox" name="mood" value="chic"> おしゃれ</label>
+        <label><input type="checkbox" name="mood" value="cool"> かっこいい</label>
+        <label><input type="checkbox" name="mood" value="wa"> 和風</label>
+        <label><input type="checkbox" name="mood" value="yuru"> ゆるい</label>
+        
+        <span class="lockchip" id="lockMood">🔒 ファンタジー・レトロは買い切り版</span>
+      </div>
+    </fieldset>
+
+    <div class="btn-row">
+      <button type="button" class="btn primary" id="genBtn">候補を出す</button>
+    </div>
+    <p class="fine">言葉も雰囲気も空欄のままで押しても、候補が出ます。</p>
+    <div class="status" id="genSt" role="status"></div>
+  </section>
+
+  <section class="card" id="list-card">
+    <h2>② 候補</h2>
+    <p class="desc">気になる候補は「☆残す」でこのブラウザに残せます。「かぶりを調べる」の中の検索を押すと、その候補名(入れた言葉を含むことがあります)を検索サイトに渡して新しいタブで開きます。押さない限り、どこにも送りません。</p>
+    <p class="desc" id="emptyNote">①で「候補を出す」を押してください。もう一度押すと、別の候補が出ます。</p>
+    <div class="status" id="listSt" role="status"></div>
+    <ul class="cands" id="cands"></ul>
+  </section>
+
+  <section class="card" id="fav-card">
+    <h2>③ 残した候補 <span class="hint" id="favCount" style="display:inline;"></span></h2>
+    <p class="desc">このブラウザの中にだけ保存されます(別のスマホやパソコンには出ません)。</p>
+    <ul class="favs" id="favs"></ul>
+    <div class="btn-row">
+      <button type="button" class="btn small" id="copyFavBtn">残した候補をまとめてコピー</button>
+      
+    </div>
+    <div class="status" id="favSt" role="status"></div>
+  </section>
+
+  <section class="card" id="logo-card">
+    <h2>④ ロゴ風に見比べる</h2>
+    <p class="desc">候補の「ロゴで見る」を押すと、ここに表示します。サークルカットやお品書きの見出しにしたときの感じを確かめられます(文字の形は、使っている端末のフォントで変わります)。読みがなは、候補から選んだときに入ります。</p>
+    <div class="row2">
+      <label class="field"><span class="lbl">表示する名前</span><input type="text" id="logoName" maxlength="24" placeholder="候補の「ロゴで見る」で入ります"></label>
+      <label class="field"><span class="lbl">スタイル</span>
+        <select id="logoStyle">
+          <option value="gothic">ゴシック(太字)</option>
+          <option value="mincho">明朝</option>
+          <option value="outline">ふちどり</option>
+          <option value="pop">ポップ(白ふち+影)</option>
+          
+        </select>
+      </label>
+      <label class="field"><span class="lbl">色</span>
+        <select id="logoColor">
+          <option value="#1f2d2b">黒</option>
+          <option value="#1f3a68">紺</option>
+          <option value="#b3261e">赤</option>
+          <option value="#0f766e">青緑</option>
+          
+        </select>
+      </label>
+    </div>
+    <label class="check"><input type="checkbox" id="logoReading" checked> 読みがなを下に小さく入れる</label>
+    
+    <div class="logo-wrap"><canvas id="logoCanvas" width="1000" height="360" role="img" aria-label="ロゴ風の見本"></canvas></div>
+    <a class="back" href="#list-card">↑ ②の候補に戻る</a>
+  </section>
+
+  <section class="card" id="pro-section">
+    <h2>背景透明のロゴ画像・候補をもっと <span class="badge">買い切り版 ¥100(税込)</span></h2>
+    <div class="locked-panel">
+      <p class="lead">決めた名前を、背景透明のロゴ画像にしてサークルカットやお品書きにそのまま貼る。</p>
+      <p>このページの機能は無料でそのまま使えます。買い切り版(ダウンロード購入)では、次の機能が増えます:</p>
+      <ul class="feat-list">
+        <li><strong>背景透明のロゴ画像をPNGで保存</strong>(高画質): 縦書き・好きな色・スタイル2種の追加(影つき明朝・枠で囲む)</li>
+        <li><strong>雰囲気2種の追加</strong>: ファンタジー・レトロ</li>
+        <li><strong>1回に60個の候補</strong>(無料版は12個)と、<strong>入れたい言葉を9個まで</strong>(無料版は3個)</li>
+        <li><strong>残せる候補200件</strong>(無料版は10件)と、候補ごとのメモ、<strong>CSVの書き出し</strong>(サークル仲間との相談に)</li>
+        <li><strong>パソコンで使うHTMLファイルです</strong>(スマホでの動作は保証していません)。ダブルクリックで開くだけ、ネットにつながっていなくても使えます</li>
+      </ul>
+<!--UPSELL_ASSURE_START--><ul class="upsell-assure" aria-label="買い切り版について"><li>¥100(税込)の1回払い・月額なし</li><li>パソコン向けのHTMLファイル(スマホでは開けない機種あり)</li><li>ネットにつながっていなくても動く</li><li>BOOTHで購入(クレジットカード・楽天ペイは手数料なし、コンビニ・銀行払いは別途手数料)</li></ul><!--UPSELL_ASSURE_END-->
+      <a class="buy-btn" href="https://uuhai0625.booth.pm/items/8989757" id="buyLink" target="_blank" rel="noopener">買い切り版を見る(BOOTH・新しいタブ)</a><!--UPSELL_TERMS_START--><p class="upsell-terms">販売者の情報・返品などの販売条件は、BOOTHの商品ページでご確認ください。BOOTHでの購入にはpixivのアカウントが必要です。</p><!--UPSELL_TERMS_END-->
+    </div>
+  </section>
+
+  <section class="card guide" id="guide">
+    <h2>サークル名・ペンネームの決め方</h2>
+    <ol>
+      <li><strong>入れたい言葉を2〜3個決める</strong>: 好きなもの、描く(書く)ジャンルの雰囲気に合う言葉、自分の名前の一部など。</li>
+      <li><strong>雰囲気を選んで候補をたくさん出す</strong>: 「候補を出す」を何度か押して、ピンときたものを「☆残す」で残します。</li>
+      <li><strong>声に出して読む・ロゴ風に見る</strong>: 読み方が1つに決まるか、サークルカットやスペースのポップにしたときに収まりがいいかを確かめます。</li>
+      <li><strong>かぶりを調べる</strong>: 同じ名前・よく似た名前のサークルや作家がいないか、検索して確かめます。</li>
+    </ol>
+
+    <h3>サークル名で避けたいこと(タブー)</h3>
+    <ul>
+      <li><strong>公式の作品名・キャラ名・会社名をそのまま入れる</strong>: 公式の関係者と間違われたり、権利者から見て問題になったりすることがあります。ジャンルが変わったときに使いにくくなるのも難点です。</li>
+      <li><strong>有名なブランド名・商品名に似せる</strong>: 商標とぶつかるおそれがあります(グッズを販売するときは特に)。気になるときは、特許庁の無料データベース「J-PlatPat」で同じ・似た名前の商標がないか調べられます。</li>
+      <li><strong>読み方が分からない・何通りにも読める</strong>: 覚えてもらえず、検索もされにくくなります。ふりがなを添えるのも手です。</li>
+      <li><strong>ありふれた言葉1つだけ</strong>: 「さくら」「Star」のような言葉だけだと、検索しても他のものに埋もれて見つけてもらえません。2つの言葉を組み合わせると見つけやすくなります。</li>
+      <li><strong>長すぎる・記号が多い</strong>: サークルカットやスペースのポップで文字が小さくなり、申込や検索のときに入力しにくくなります。機種依存文字や絵文字は、申込で使えないイベントもあります。</li>
+    </ul>
+
+    <h3>雰囲気別のサークル名の例</h3>
+    <p class="desc">このツールで出る候補の例です(実在するサークル名と同じことがあるので、使う前にかぶりを調べてください)。</p>
+    <ul class="examples">
+      <li><strong>かわいいサークル名</strong>: こねこのおうち・ましゅまろぱれっと・ふわふわしろくま</li>
+      <li><strong>おしゃれなサークル名</strong>: アトリエ ソレイユ・フローラ ガーデン・Maison Ciel</li>
+      <li><strong>かっこいいサークル名</strong>: 紅蓮ワークス・迅雷工廠・黎明機関</li>
+      <li><strong>和風のサークル名</strong>: 狐文庫・木漏れ日亭・月見と夜長</li>
+      <li><strong>ゆるいサークル名</strong>: こたつ日和・しらたま同好会・ほっこりぽてと</li>
+    </ul>
+
+    <h3>かぶりを調べるには</h3>
+    <ul>
+      <li>候補の「かぶりを調べる」から、Google・X(旧Twitter)・BOOTHの検索と、Google経由のpixiv内検索を開けます。Google・Xは名前を「"」で囲んだ完全一致で検索します。</li>
+      <li>参加するイベントの公式サイトにサークル一覧や検索があれば、そちらも確かめると安心です。</li>
+      <li>まったく同じ名前がなくても、よく似た名前の人気サークルがあると間違われやすいので、少し変えるのがおすすめです。</li>
+    </ul>
+
+    <h3>よくある疑問</h3>
+    <ul>
+      <li><strong>個人で参加するのにサークル名はいる?</strong> 同人誌即売会では、1人でも「サークル」として申し込むのが一般的です。ペンネームをそのままサークル名にする人もいます。</li>
+      <li><strong>サークル名とペンネームは別にしたほうがいい?</strong> どちらでもかまいません。別にしておくと、合同誌を出すときやジャンルを変えるときに使い分けやすくなります。</li>
+      <li><strong>途中で変えてもいい?</strong> 変えられますが、前の名前で覚えている人が探せなくなります。変えるときはX(旧Twitter)のプロフィールやお品書きで「旧サークル名」を書いておくと親切です。</li>
+      <li><strong>ペンネームが実在の人と同じだったら?</strong> よくある名前の組み合わせは、同じ名前の人がいることがあります。気になる場合は、検索して有名人・作家と同じでないか確かめてください。同じジャンルで活動している作家と同じ名前は、本人や関係者と間違われるので避けましょう。</li>
+      <li><strong>出てきた候補は自由に使っていい?</strong> はい。作者への連絡や料金なしで自由に使えます。ただし言葉のランダムな組み合わせなので、すでに使われている名前や、登録商標と同じ・似た名前になることがあります。他の人の権利と重ならないことまでは保証できないため、使う前にかぶりを調べてください。</li>
+    </ul>
+  </section>
+
+</main>
+
+<!--ANSHIN_START-->
+<section class="anshin" id="anshin" aria-labelledby="anshin-title">
+  <h2 id="anshin-title">データの扱いについて</h2>
+  <p>このページには、入力した内容を受け取る仕組みがありません。入力した文字や数字は、あなたのスマホやパソコンの中だけで処理されます。</p>
+  <ul>
+    <li>会員登録・ログイン・メールアドレスの入力はありません。</li>
+    <li>例外: 候補の「かぶりを調べる」で検索を押したときだけ、その候補名(入れた言葉を含むことがあります)が検索サイト(Google・X・BOOTH)に送られ、新しいタブで開きます。ログイン中は検索履歴に残ることがあります。</li>
+    <li>自分で確かめたい方へ: ページを開いたあと機内モードにしても、そのまま使えます。</li>
+  </ul>
+  <details>
+    <summary>もっとくわしく(保存・アクセス解析・公開について)</summary>
+    <ul>
+      <li>保存されるデータは、この端末のこのブラウザの中にだけ残ります(localStorage・sessionStorage)。共用のパソコンでは使い終わったら消してください。</li>
+      <li>アクセス解析(Google Analytics)のため、見たページのURL・参照元・端末やブラウザの種類・おおよその地域(IPアドレスから推定)・Cookieの識別子・BOOTHへのリンクのクリック・どのボタンを押したか(回数や選んだ設定を含む)がGoogleに送られます。目的は利用状況の把握です。入力した文字や画像は送りません。(<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Googleによるデータの使用</a>/<a href="https://tools.google.com/dlpage/gaoptout?hl=ja" target="_blank" rel="noopener">計測を止めるアドオン</a>。止めてもツールはそのまま使えます)</li>
+      <li>このツールの結果や作成物は目安です。入稿・契約・販売などの前には、印刷所や公式の情報でご確認ください。</li>
+      <li>処理の中身はすべて公開しています(詳しい方向け: <a href="https://github.com/uuhai0625/circle-name-maker" target="_blank" rel="noopener">GitHub</a>)。</li>
+    </ul>
+  </details>
+  <p class="anshin-meta">作っている人: ウーハイ(個人開発)/不具合・ご質問は<a href="https://x.com/uuhai0625" target="_blank" rel="noopener">X(@uuhai0625)</a>へ/<a href="https://uuhai0625.github.io/" target="_blank" rel="noopener">ほかのツール</a>/この説明の更新日: 2026-10-13</p>
+</section>
+<!--ANSHIN_END-->
+
+<footer>
+  <p id="privacyNote">本ツールは完全にブラウザ内で動作し、入力した内容はどこにも送信されません(「かぶりを調べる」を押したときだけ、その候補名を検索サイトに渡します)。</p>
+  <p><a href="https://uuhai0625.booth.pm/" target="_blank" rel="noopener">他のツールも見る(BOOTHショップ)</a></p>
+  <p>不具合・ご要望は X <a href="https://x.com/uuhai0625" target="_blank" rel="noopener">@uuhai0625</a> まで。</p>
+  <p class="related-tools no-print">関連する無料ツール: <a href="https://uuhai0625.github.io/circle-cut-maker/" target="_blank" rel="noopener">サークルカットメーカー</a> ・ <a href="https://uuhai0625.github.io/circle-card-maker/" target="_blank" rel="noopener">サークルカードメーカー</a> ・ <a href="https://uuhai0625.github.io/oshinagaki-maker/" target="_blank" rel="noopener">お品書きメーカー</a> ・ <a href="https://uuhai0625.github.io/doujin-okuzuke-maker/" target="_blank" rel="noopener">奥付メーカー</a> ・ <a href="https://uuhai0625.github.io/#free-tools">ツール一覧</a></p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var EDITION = "free"; // "full" で買い切り完全版
+
+  function track(name, params) {
+    if (!window.dataLayer) return;
+    (function () { window.dataLayer.push(arguments); })("event", name, params || {});
+  }
+  var $ = function (id) { return document.getElementById(id); };
+  function setSt(id, msg, err) { var e = $(id); if (!e) return; e.textContent = msg; e.classList.toggle("err", !!err); }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function W(w, r, o) { var x = { w: w, r: r == null ? w : r }; if (o) for (var k in o) x[k] = o[k]; return x; }
+  function M(w) { return W(w, null, { mod: true }); } // 様子を表す言葉(ぽかぽか等)。先頭の飾りとしてだけ使う
+
+  // ===== 言葉の素材(w=表記、r=読み、e=英字表記、mod=先頭専用、hard=難読) =====
+  var BANKS = {
+    cute: {
+      words: [W("ましゅまろ"), W("こんぺいとう"), W("わたあめ"), W("いちご"), W("うさぎ"), W("ひよこ"), W("こねこ"), M("ぽかぽか"), M("ふわふわ"), W("ミルク"), W("リボン"), W("ドロップ"), W("マカロン"), W("ハニー"), W("ベリー"), W("ピーチ"), W("ミント"), W("ポシェット"), W("シフォン"), W("クッキー"), W("てんとうむし"), W("しろくま"), W("ぷりん"), M("ももいろ"), M("ゆめいろ"), M("きらきら"), M("ころころ"), W("さくらんぼ"), W("小鳥", "ことり"), W("星", "ほし")],
+      suf: [W("ぱれっと"), W("のおうち"), W("ぽけっと"), W("くらぶ"), W("ふぁくとりー"), W("のおやつ"), W("ぼっくす")]
+    },
+    chic: {
+      words: [W("ルミエール", null, { e: "Lumière" }), W("ソレイユ", null, { e: "Soleil" }), W("フローラ", null, { e: "Flora" }), W("エトワール", null, { e: "Étoile" }), W("ブルーム", null, { e: "Bloom" }), W("リネン"), W("アイボリー"), W("セピア"), W("メロウ"), W("ノクターン"), W("プリズム", null, { e: "Prism" }), W("リリィ"), W("ミューズ", null, { e: "Muse" }), W("オパール"), W("オーロラ", null, { e: "Aurora" }), W("ラピス"), W("シエル", null, { e: "Ciel" }), W("フルール", null, { e: "Fleur" }), W("アンバー"), W("ベルベット"), W("モノクローム"), W("ルーチェ", null, { e: "Luce" }), W("グレイス"), W("シャルム"), W("パルファン")],
+      suf: [W("アトリエ", null, { pre: true, sep: " " }), W("スタジオ", null, { pre: true, sep: " " }), W("ルーム", null, { sep: " " }), W("プレス", null, { sep: " " }), W("ラボ"), W("ガーデン", null, { sep: " " })]
+    },
+    cool: {
+      words: [W("黒鉄", "くろがね"), W("紅蓮", "ぐれん"), W("蒼", "あお"), W("黎明", "れいめい"), W("迅雷", "じんらい"), W("鴉", "からす", { hard: true }), W("白夜", "びゃくや"), W("銀狼", "ぎんろう"), W("月影", "つきかげ"), W("雷鳴", "らいめい"), W("残響", "ざんきょう"), W("漆黒", "しっこく"), W("鋼", "はがね"), W("零", "れい"), W("クロウ"), W("ノヴァ"), W("アーク"), W("シグマ"), W("ヴァーミリオン"), W("ゼニス"), W("ブレイズ"), W("コバルト"), W("オニキス"), W("ファントム")],
+      suf: [W("団", "だん"), W("機関", "きかん"), W("研究所", "けんきゅうじょ"), W("工廠", "こうしょう", { hard: true }), W("ワークス"), W("隊", "たい"), W("ラボ")]
+    },
+    wa: {
+      words: [W("月見", "つきみ"), W("夜長", "よなが"), W("縁側", "えんがわ"), W("花筏", "はないかだ", { hard: true }), W("朧", "おぼろ", { hard: true }), W("雪見", "ゆきみ"), W("椿", "つばき"), W("金魚", "きんぎょ"), W("風鈴", "ふうりん"), W("灯籠", "とうろう"), W("狐", "きつね"), W("番傘", "ばんがさ"), W("文月", "ふみづき"), W("茜", "あかね"), W("藍", "あい"), W("玉響", "たまゆら", { hard: true }), W("宵", "よい"), W("柚子", "ゆず"), W("薄荷", "はっか"), W("鈴", "すず"), W("葵", "あおい"), W("紫陽花", "あじさい"), W("木漏れ日", "こもれび"), W("夕凪", "ゆうなぎ"), W("鬼灯", "ほおずき", { hard: true })],
+      suf: [W("堂", "どう"), W("屋", "や"), W("舎", "しゃ"), W("亭", "てい"), W("庵", "あん"), W("座", "ざ"), W("書房", "しょぼう"), W("文庫", "ぶんこ")]
+    },
+    yuru: {
+      words: [M("のんびり"), M("ごろごろ"), M("もちもち"), W("ぽてと"), W("おにぎり"), M("まったり"), M("ねむねむ"), W("おやつ"), M("ほっこり"), W("こたつ"), M("ぬくぬく"), W("ひなたぼっこ"), M("ゆるり"), W("ちくわ"), W("だんご"), W("しらたま"), W("ねこじゃらし"), W("あくび"), W("うたたね"), W("おもち"), W("たいやき"), W("ぺんぎん"), W("かえる"), W("きなこ")],
+      suf: [W("の会", "のかい"), W("部", "ぶ"), W("日和", "びより"), W("のおへや"), W("同好会", "どうこうかい"), W("組", "ぐみ")]
+    }
+  };
+  // ペンネーム用: 姓らしい言葉と、名前らしい言葉
+  var SURNAME = {
+    def: [W("森野", "もりの"), W("雨宮", "あまみや"), W("星野", "ほしの"), W("月岡", "つきおか"), W("柚木", "ゆずき"), W("朝霧", "あさぎり"), W("水瀬", "みなせ"), W("花村", "はなむら"), W("七瀬", "ななせ"), W("結城", "ゆうき"), W("葉月", "はづき"), W("桐谷", "きりたに"), W("藤咲", "ふじさき"), W("白鳥", "しらとり"), W("春野", "はるの"), W("夜見", "よみ"), W("鳴海", "なるみ"), W("霧島", "きりしま"), W("早瀬", "はやせ"), W("木乃", "きの")],
+    cute: [W("ももの"), W("ひだまり"), W("こはく"), W("花村", "はなむら"), W("星野", "ほしの"), W("春野", "はるの"), W("苺野", "いちごの")],
+    chic: [W("ルミ"), W("ミレイ"), W("アマネ"), W("シノ"), W("七瀬", "ななせ"), W("水瀬", "みなせ")],
+    yuru: [W("のん"), W("ぽこ"), W("ぽて"), W("くま"), W("森野", "もりの")]
+  };
+  var GIVEN = {
+    cute: [W("こはる"), W("みお"), W("すず"), W("もも"), W("ここな"), W("ひな"), W("うた"), W("めい"), W("ねね"), W("ぽぽ"), W("ゆめ"), W("みみ")],
+    chic: [W("ミオ"), W("リラ"), W("ルカ"), W("ノア"), W("シオン"), W("セナ"), W("レイ"), W("リオ"), W("ユキ"), W("サラ")],
+    cool: [W("蒼", "あお"), W("迅", "じん"), W("零", "れい"), W("朔", "さく"), W("凪", "なぎ"), W("楓", "かえで"), W("灯", "あかり"), W("鷹", "たか"), W("刃", "やいば"), W("玲", "れい")],
+    wa: [W("小春", "こはる"), W("千鶴", "ちづる"), W("文", "ふみ"), W("菫", "すみれ"), W("葵", "あおい"), W("楓", "かえで"), W("椿", "つばき"), W("紬", "つむぎ"), W("鈴", "すず"), W("朧", "おぼろ")],
+    yuru: [W("ぽんた"), W("もち"), W("こむぎ"), W("まめ"), W("ねむ"), W("ぬく"), W("てん"), W("ゆる"), W("たま"), W("ぽち")]
+  };
+
+  var PER_GEN = 12, MAX_FAV = 10, MAX_WORDS = 3;
+  
+  var FREE_MOODS = ["cute", "chic", "cool", "wa", "yuru"];
+  function hasMood(m) { return Object.prototype.hasOwnProperty.call(BANKS, m); }
+
+  // ===== 保存(このブラウザの中だけ) =====
+  var KEY = "circlename_v1";
+  var state = { kind: "circle", words: [], moods: [], favs: [], list: [] };
+  var saveWarned = false;
+  function load() {
+    try {
+      var o = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (!o) return;
+      if (o.kind === "pen" || o.kind === "circle") state.kind = o.kind;
+      if (Array.isArray(o.words)) state.words = o.words.map(function (w) { return clean(w); }).filter(Boolean).slice(0, MAX_WORDS);
+      if (Array.isArray(o.moods)) state.moods = o.moods.filter(hasMood);
+      if (Array.isArray(o.favs)) state.favs = o.favs.filter(function (f) { return f && typeof f.n === "string"; }).slice(0, MAX_FAV).map(function (f) { return { n: clean(f.n, 40), r: typeof f.r === "string" ? clean(f.r, 60) : "", m: typeof f.m === "string" ? clean(f.m, 100) : "", k: f.k === "pen" ? "pen" : "circle" }; });
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ kind: state.kind, words: state.words, moods: state.moods, favs: state.favs })); }
+    catch (e) { if (!saveWarned) { saveWarned = true; setSt("favSt", "このブラウザでは保存できないため、閉じると残した候補が消えます(プライベートモードなど)。", true); } }
+  }
+  // 制御文字・見た目を入れ替える文字を取り除き、絵文字の途中で切らないように文字数で切る
+  function clean(s, max) { return Array.from(String(s == null ? "" : s).replace(/[\u0000-\u001f\u007f\u200e\u200f\u202a-\u202e\u2066-\u2069\u2028\u2029]/g, "").trim()).slice(0, max || 12).join(""); }
+
+  // ===== 候補づくり =====
+  function readingOf(n) { return /^[ぁ-ゟ゠-ヿ ]+$/.test(n) ? n : ""; }
+  function first(s) { return Array.from(s)[0]; }
+  function join(a, s) {
+    if (a.w.indexOf(s.w.replace(/^の/, "")) >= 0 || s.w.indexOf(a.w) >= 0) return null; // 「純喫茶喫茶」のような重なり
+    if (!s.pre && /[館座屋堂店房庫室所]$/.test(a.w) && /^[館座屋堂店房庫室所舎亭庵団隊部組]|館$|座$|店$|房$|庫$|所$|室$|場$/.test(s.w)) return null; // 「映画館座」のような建物の重なり
+    var r = a.r == null ? null : (s.pre ? s.r + (s.sep || "") + a.r : a.r + (s.sep || "") + s.r);
+    return { n: s.pre ? s.w + (s.sep || "") + a.w : a.w + (s.sep || "") + s.w, r: r };
+  }
+  function pair(a, p, b) {
+    // 様子を表す言葉(mod)は「の」「と」の後ろに置かない。先頭なら「ほっこりぽてと」のようにつなげる
+    if (b.mod) return null;
+    if (a.mod) return { n: a.w + b.w, r: a.r == null || b.r == null ? null : a.r + b.r };
+    if (a.w === b.w || first(a.w) === first(b.w)) return null;
+    return { n: a.w + p + b.w, r: a.r == null || b.r == null ? null : a.r + p + b.r };
+  }
+  function makeCircle(moods, K, mix) {
+    var m = pick(moods), B = BANKS[m], A = pick(B.words), A2 = pick(BANKS[mix && Math.random() < 0.15 ? pick(moods) : m].words), S = pick(B.suf);
+    var t = Math.random();
+    if (K.length && Math.random() < 0.5) {
+      var k = pick(K), kw = { w: k, r: readingOf(k) || null };
+      if (t < 0.35) return join(kw, S);
+      if (t < 0.6) return pair(kw, "の", A);
+      if (t < 0.85) return pair(A, "と", kw);
+      return A.mod ? pair(A, "", kw) : null;
+    }
+    if (t < 0.45) return join(A, S);
+    if (t < 0.67) return pair(A, "と", A2);
+    if (t < 0.9) return pair(A, "の", A2);
+    if (m === "chic" && A.e) { var i = Math.floor(Math.random() * 3); return { n: ["Atelier ", "Studio ", "Maison "][i] + A.e, r: ["アトリエ ", "スタジオ ", "メゾン "][i] + A.r }; }
+    if (A.mod && !A2.mod) return { n: A.w + A2.w, r: A.r + A2.r };
+    return null;
+  }
+  function makePen(moods, K) {
+    var m = pick(moods), G = pick(GIVEN[m] || GIVEN.cute), SN = pick(SURNAME[m] || SURNAME.def), A = pick(BANKS[m].words);
+    var kanaWord = !A.mod && !!readingOf(A.w);
+    var t = Math.random();
+    if (K.length && Math.random() < 0.45) {
+      var k = pick(K), kr = readingOf(k);
+      if (t < 0.55) return k === G.w ? null : { n: k + G.w, r: kr ? kr + " " + G.r : null };
+      return k === SN.w ? null : { n: SN.w + k, r: kr ? SN.r + " " + kr : null };
+    }
+    if (t < 0.6 || !(m === "cute" || m === "yuru" || m === "chic")) {
+      var S2 = t < 0.45 ? SN : pick(SURNAME.def);
+      if (S2.w === G.w || first(S2.w) === first(G.w)) return null;
+      return { n: S2.w + G.w, r: S2.r + " " + G.r };
+    }
+    // ひらがな・カタカナの言葉だけのペンネーム(ぷりん・しらたま等)と、言葉+名前
+    if (t < 0.8 && kanaWord && (m === "cute" || m === "yuru") && A.w.length <= 6) return { n: A.w, r: A.r };
+    if (kanaWord && A.w.length <= 5 && A.w !== G.w && first(A.w) !== first(G.w)) return { n: A.w + G.w, r: A.r + " " + G.r };
+    return null;
+  }
+  function generate() {
+    var moods = state.moods.length ? state.moods.slice() : FREE_MOODS.slice();
+    var mix = state.moods.length > 1; // 雰囲気を複数選んだときだけ混ぜる
+    var K = state.words.filter(Boolean);
+    var out = [], seen = {}, tries = 0;
+    state.favs.forEach(function (f) { seen[f.n] = 1; });
+    while (out.length < PER_GEN && tries < PER_GEN * 80) {
+      tries++;
+      var c = state.kind === "pen" ? makePen(moods, K) : makeCircle(moods, K, mix);
+      if (!c || !c.n || seen[c.n] || Array.from(c.n).length > 24) continue;
+      if (c.r == null) c.r = readingOf(c.n);
+      c.k = state.kind;
+      seen[c.n] = 1;
+      out.push(c);
+    }
+    return out;
+  }
+  var HARD = [];
+  Object.keys(BANKS).forEach(function (m) { BANKS[m].words.concat(BANKS[m].suf).forEach(function (x) { if (x.hard) HARD.push(x.w); }); });
+
+  function notes(c) {
+    var a = [], n = c.n;
+    var len = Array.from(n.replace(/ /g, "")).length;
+    if (len > 12) a.push("長め: サークルカットやスペースのポップで文字が小さくなりがち");
+    if (len <= 2) a.push("短め: 検索するとほかのものと混ざりやすい");
+    if (/[&.+\-]/.test(n)) a.push("記号入り: 検索や申込で入力しにくいことがある");
+    if (/[A-Za-zÀ-ÿ]/.test(n)) a.push("英字: 読み方(カタカナ)も添えると覚えてもらいやすい");
+    if (HARD.some(function (h) { return n.indexOf(h) >= 0; })) a.push("難読: ふりがなを添えるのがおすすめ");
+    if (!c.r) a.push("読み方は自分で決めて、ふりがなを添えるのがおすすめ");
+    return a;
+  }
+
+  // ===== 表示 =====
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function isFav(n) { return state.favs.some(function (f) { return f.n === n; }); }
+  function searchLinks(n) {
+    var q = '"' + n.replace(/"/g, "") + '"';
+    return [
+      ["Google", "https://www.google.com/search?q=" + encodeURIComponent(q + (state.kind === "pen" ? "" : " サークル"))],
+      ["X", "https://x.com/search?q=" + encodeURIComponent(q)],
+      ["pixiv(Google経由)", "https://www.google.com/search?q=" + encodeURIComponent(q + " site:pixiv.net")],
+      ["BOOTH", "https://booth.pm/ja/search/" + encodeURIComponent(n.replace(/"/g, ""))]
+    ];
+  }
+  function renderList() {
+    var ul = $("cands");
+    ul.textContent = "";
+    $("emptyNote").classList.toggle("hidden", state.list.length > 0);
+    state.list.forEach(function (c, i) {
+      var li = el("li", "cand");
+      li.appendChild(el("span", "nm", c.n));
+      li.appendChild(el("span", "rd", (c.r && c.r !== c.n ? "読み: " + c.r + " / " : "") + Array.from(c.n.replace(/ /g, "")).length + "文字"));
+      var ns = notes(c);
+      if (ns.length) {
+        var nl = el("ul", "notes");
+        ns.forEach(function (t) { nl.appendChild(el("li", "", "・" + t)); });
+        li.appendChild(nl);
+      }
+      var acts = el("div", "acts");
+      var fb = el("button", "btn small", isFav(c.n) ? "★残した" : "☆残す");
+      fb.type = "button";
+      fb.setAttribute("aria-pressed", isFav(c.n) ? "true" : "false");
+      fb.setAttribute("aria-label", "残す: " + c.n);
+      fb.addEventListener("click", function () { toggleFav(c, fb); });
+      var cb = el("button", "btn small", "コピー");
+      cb.type = "button";
+      cb.setAttribute("aria-label", "コピー: " + c.n);
+      cb.addEventListener("click", function () { copyText(c.n, "listSt", cb); track("name_copy", { from: "list" }); });
+      var lb = el("button", "btn small", "ロゴで見る");
+      lb.type = "button";
+      lb.setAttribute("aria-label", "ロゴで見る: " + c.n);
+      lb.addEventListener("click", function () { showLogo(c); });
+      acts.appendChild(fb); acts.appendChild(cb); acts.appendChild(lb);
+      li.appendChild(acts);
+      var d = el("details");
+      d.appendChild(el("summary", "", "かぶりを調べる(新しいタブで検索)"));
+      searchLinks(c.n).forEach(function (p) {
+        var a = el("a", "", p[0]);
+        a.href = p[1]; a.target = "_blank"; a.rel = "noopener noreferrer";
+        a.setAttribute("aria-label", p[0] + "で「" + c.n + "」を検索(新しいタブ)");
+        a.addEventListener("click", function () { track("name_search", { site: p[0] }); });
+        d.appendChild(a);
+      });
+      li.appendChild(d);
+      ul.appendChild(li);
+    });
+  }
+  function toggleFav(c, btn) {
+    var i = state.favs.findIndex(function (f) { return f.n === c.n; });
+    if (i >= 0) state.favs.splice(i, 1);
+    else {
+      if (state.favs.length >= MAX_FAV) { setSt("listSt", "残せるのは" + MAX_FAV + "件までです。③でいらないものを外してください" + (EDITION === "full" ? "。" : "(買い切り版は200件まで)。"), true); return; }
+      state.favs.push({ n: c.n, r: c.r || "", m: "", k: c.k === "pen" ? "pen" : "circle" });
+      track("name_fav", { kind: c.k });
+    }
+    save();
+    if (btn) { var on = isFav(c.n); btn.textContent = on ? "★残した" : "☆残す"; btn.setAttribute("aria-pressed", on ? "true" : "false"); }
+    renderFavs();
+  }
+  function renderFavs() {
+    var ul = $("favs");
+    ul.textContent = "";
+    $("favCount").textContent = state.favs.length + "件(" + MAX_FAV + "件まで)";
+    if (!state.favs.length) { ul.appendChild(el("li", "", "まだありません。②の候補で「☆残す」を押すと、ここに残ります。")); }
+    state.favs.forEach(function (f, i) {
+      var li = el("li");
+      var nm = el("span", "nm", f.n);
+      if (f.r && f.r !== f.n) nm.appendChild(el("span", "rd", f.r));
+      li.appendChild(nm);
+      
+      var lb = el("button", "btn small", "ロゴで見る");
+      lb.type = "button"; lb.setAttribute("aria-label", "ロゴで見る: " + f.n);
+      lb.addEventListener("click", function () { showLogo({ n: f.n, r: f.r }); });
+      var rb = el("button", "btn small", "外す");
+      rb.type = "button"; rb.setAttribute("aria-label", "外す: " + f.n);
+      rb.addEventListener("click", function () {
+        state.favs.splice(i, 1); save(); renderFavs(); renderList();
+        var rows = $("favs").querySelectorAll("li");
+        var row = state.favs.length ? rows[Math.min(i, state.favs.length - 1)] : null;
+        var btns = row ? row.querySelectorAll("button") : [];
+        (btns.length ? btns[btns.length - 1] : $("copyFavBtn")).focus();
+      });
+      li.appendChild(lb); li.appendChild(rb);
+      ul.appendChild(li);
+    });
+  }
+  function copyText(t, stId, btn) {
+    function done() {
+      setSt(stId, "コピーしました。");
+      if (btn) { var old = btn.textContent; btn.textContent = "コピーしました"; setTimeout(function () { btn.textContent = old; }, 1500); }
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = t; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      if (ok) done(); else setSt(stId, "コピーできませんでした。文字を選んでコピーしてください。", true);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback);
+    else fallback();
+  }
+
+  // ===== ロゴ風の見本(canvas) =====
+  var logo = { n: "", r: "" };
+  var FONT = {
+    gothic: '"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Meiryo",sans-serif',
+    mincho: '"Hiragino Mincho ProN","Yu Mincho","YuMincho","MS PMincho",serif'
+  };
+  function logoColor() {
+    var v = $("logoColor").value;
+    
+    return /^#[0-9a-f]{6}$/i.test(v) ? v : "#1f2d2b";
+  }
+  var vertical = false;
+  function drawLogo(cv, scale, transparent) {
+    var name = logo.n || "サークル名", style = $("logoStyle").value, color = logoColor(), showR = $("logoReading").checked && logo.r;
+    var Wd = vertical ? 360 : 1000, Ht = vertical ? 1000 : 360;
+    cv.width = Wd * scale; cv.height = Ht * scale;
+    var ctx = cv.getContext("2d");
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.clearRect(0, 0, Wd, Ht);
+    if (!transparent) { ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, Wd, Ht); }
+    var family = style === "mincho" || style === "shadow" ? FONT.mincho : FONT.gothic;
+    var weight = style === "mincho" || style === "shadow" ? "700" : "900";
+    var chars = Array.from(vertical ? name.replace(/\s+/g, "") : name);
+    var area = vertical ? { w: Wd - 80, h: Ht - (showR ? 160 : 90) } : { w: Wd - 90, h: Ht - (showR ? 120 : 70) };
+    ctx.textBaseline = "middle"; ctx.textAlign = "center";
+    var size;
+    if (vertical) size = Math.min(area.w * 0.8, area.h / Math.max(1, chars.length) / 1.08);
+    else {
+      size = area.h * 0.8;
+      ctx.font = weight + " " + size + "px " + family;
+      var mw = ctx.measureText(name).width;
+      if (mw > area.w) size = size * area.w / mw;
+    }
+    if (style === "frame") size *= 0.78;
+    size = Math.max(10, size);
+    ctx.font = weight + " " + size + "px " + family;
+    var cx = Wd / 2, cy = vertical ? (Ht - (showR ? 70 : 0)) / 2 : (Ht - (showR ? 46 : 0)) / 2;
+    function paintText(dx, dy) {
+      if (vertical) {
+        var top = cy - (chars.length * size * 1.08) / 2 + size * 0.54;
+        chars.forEach(function (ch, i) {
+          var y = top + i * size * 1.08 + dy;
+          if (/[ー〜～\-—()()「」]/.test(ch)) { ctx.save(); ctx.translate(cx + dx, y); ctx.rotate(Math.PI / 2); ctx.fillText(ch, 0, 0); if (ctx.__stroke) ctx.strokeText(ch, 0, 0); ctx.restore(); }
+          else { ctx.fillText(ch, cx + dx, y); if (ctx.__stroke) ctx.strokeText(ch, cx + dx, y); }
+        });
+      } else { ctx.fillText(name, cx + dx, cy + dy); if (ctx.__stroke) ctx.strokeText(name, cx + dx, cy + dy); }
+    }
+    ctx.lineJoin = "round";
+    ctx.__stroke = false;
+    if (style === "outline") {
+      ctx.fillStyle = "#fff"; ctx.strokeStyle = color; ctx.lineWidth = Math.max(3, size * 0.08); ctx.__stroke = true;
+      // 外側にふちを描いてから中を白で塗る
+      ctx.save(); ctx.lineWidth = Math.max(6, size * 0.16); ctx.fillStyle = color; ctx.strokeStyle = color; paintText(0, 0); ctx.restore();
+      ctx.__stroke = false; ctx.fillStyle = "#fff"; paintText(0, 0);
+    } else if (style === "pop") {
+      // 影もふちごと描いてから、白ふち→文字の順に重ねる
+      var lw = Math.max(6, size * 0.14);
+      ctx.__stroke = true; ctx.lineWidth = lw; ctx.fillStyle = "rgba(0,0,0,.3)"; ctx.strokeStyle = "rgba(0,0,0,.3)"; paintText(size * 0.1, size * 0.1);
+      ctx.fillStyle = "#fff"; ctx.strokeStyle = "#fff"; paintText(0, 0);
+      ctx.__stroke = false; ctx.fillStyle = color; paintText(0, 0);
+    } else if (style === "shadow") {
+      ctx.save(); ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = size * 0.08; ctx.shadowOffsetX = size * 0.04; ctx.shadowOffsetY = size * 0.04;
+      ctx.fillStyle = color; paintText(0, 0); ctx.restore();
+    } else if (style === "frame") {
+      ctx.fillStyle = color; paintText(0, 0);
+      ctx.strokeStyle = color; ctx.lineWidth = 6;
+      var pad = 24, bw = vertical ? size * 1.5 : Math.min(Wd - 20, ctx.measureText(name).width + pad * 2), bh = vertical ? Math.min(Ht - 20, chars.length * size * 1.08 + pad * 2) : size * 1.5;
+      ctx.strokeRect(cx - bw / 2, cy - bh / 2, bw, bh);
+    } else {
+      ctx.fillStyle = color; paintText(0, 0);
+    }
+    ctx.__stroke = false;
+    if (showR) {
+      var rs = vertical ? 30 : 44;
+      ctx.font = "700 " + rs + "px " + FONT.gothic;
+      ctx.fillStyle = color;
+      var ry = vertical ? Ht - 40 : Ht - 30;
+      var rr = logo.r;
+      var rw = ctx.measureText(rr).width, maxw = Wd - 40;
+      if (rw > maxw) ctx.font = "700 " + Math.floor(rs * maxw / rw) + "px " + FONT.gothic;
+      ctx.fillText(rr, cx, ry);
+    }
+  }
+  function showLogo(c) {
+    logo = { n: c.n, r: c.r && c.r !== c.n ? c.r : "" };
+    $("logoName").value = c.n;
+    redrawLogo();
+    $("logo-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("logoName").focus({ preventScroll: true });
+    track("name_logo", { style: $("logoStyle").value });
+  }
+  function redrawLogo() {
+    drawLogo($("logoCanvas"), 1, false);
+    $("logoCanvas").setAttribute("aria-label", "ロゴ風の見本: " + (logo.n || "サークル名") + "(" + $("logoStyle").options[$("logoStyle").selectedIndex].text + ")");
+  }
+  
+
+  // ===== 入力のつなぎ込み =====
+  function syncSeg(seg) { seg.querySelectorAll("label").forEach(function (l) { var i = l.querySelector("input"); if (i) l.classList.toggle("on", i.checked); }); }
+  function readInputs() {
+    state.kind = document.querySelector('input[name=kind]:checked').value;
+    state.words = Array.prototype.map.call(document.querySelectorAll("#wordBox .word"), function (i) { return clean(i.value); }).filter(Boolean).slice(0, MAX_WORDS);
+    state.moods = Array.prototype.filter.call(document.querySelectorAll("input[name=mood]"), function (i) { return i.checked; }).map(function (i) { return i.value; }).filter(hasMood);
+    syncSeg($("kindSeg")); syncSeg($("moodSeg"));
+    save();
+  }
+  function applyInputs() {
+    document.querySelectorAll("input[name=kind]").forEach(function (i) { i.checked = i.value === state.kind; });
+    var ws = document.querySelectorAll("#wordBox .word");
+    state.words.forEach(function (w, i) { if (ws[i]) ws[i].value = w; });
+    document.querySelectorAll("input[name=mood]").forEach(function (i) { i.checked = state.moods.indexOf(i.value) >= 0; });
+    syncSeg($("kindSeg")); syncSeg($("moodSeg"));
+  }
+  document.querySelectorAll("input[name=mood]").forEach(function (i) { i.addEventListener("change", readInputs); });
+  document.querySelectorAll("input[name=kind]").forEach(function (i) {
+    i.addEventListener("change", function () {
+      readInputs();
+      if (state.list.length) { state.list = []; renderList(); setSt("genSt", "作るものを変えました。「候補を出す」で出し直してください。"); }
+    });
+  });
+  document.querySelectorAll("#wordBox .word").forEach(function (i) { i.addEventListener("input", readInputs); });
+  $("genBtn").addEventListener("click", function () {
+    readInputs();
+    state.list = generate();
+    renderList();
+    setSt("genSt", state.list.length ? (state.kind === "pen" ? "ペンネーム" : "サークル名") + "の候補を" + state.list.length + "個出しました(②)。もう一度押すと別の候補が出ます。" : "候補を作れませんでした。言葉や雰囲気を変えてみてください。", !state.list.length);
+    setSt("listSt", "");
+    track("name_generate", { kind: state.kind, moods: state.moods.length, words: state.words.length });
+  });
+  $("copyFavBtn").addEventListener("click", function () {
+    if (!state.favs.length) { setSt("favSt", "残した候補がありません。", true); return; }
+    copyText(state.favs.map(function (f) { return f.n + (f.r ? "(" + f.r + ")" : ""); }).join("\n"), "favSt");
+    track("name_copy", { from: "favs" });
+  });
+  $("logoName").addEventListener("input", function () { logo = { n: clean(this.value, 24), r: logo.n === clean(this.value, 24) ? logo.r : "" }; redrawLogo(); });
+  ["logoStyle", "logoColor", "logoReading"].forEach(function (id) { $(id).addEventListener("change", redrawLogo); });
+
+  
+  if (EDITION !== "full") {
+    $("privacyNote").innerHTML = '入力した内容はどこにも送信されません(すべてこのブラウザの中で処理します。「かぶりを調べる」を押したときだけ、その候補名を検索サイトに渡します)。このページでは利用状況の把握のためにアクセス解析(Google Analytics)を使っています。<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Googleによるデータの使用について</a>';
+  }
+
+  load();
+  applyInputs();
+  renderList();
+  renderFavs();
+  redrawLogo();
+})();
+</script>
+<!--UPSELL_JS_START-->
+<script>
+(function () {
+  "use strict";
+  var q = new URLSearchParams(location.search);
+  if (q.get("obs") === "1" || document.documentElement.classList.contains("obs")) return;
+  // 小さな案内(トースト)は、買い切り版がパソコン向けなので、マウス操作の広い画面でだけ出す
+  var pc = !!(window.matchMedia && matchMedia("(pointer:fine) and (min-width:720px)").matches);
+  var buy = document.getElementById("buyLink");
+  var pro = document.getElementById("pro-section");
+  if (!buy || !pro) return;
+  var FEATS = [];
+  var path = location.pathname.replace(/index\.html$/, "");
+  var KEY_CLOSED = "upsell_closed_until:" + path, KEY_SHOWN = "upsell_shown:" + path;
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function sess(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  function gtagEv(name, p) { if (!window.dataLayer) return; (function () { window.dataLayer.push(arguments); })("event", name, p || {}); }
+
+  var shown = false;
+  function blocked() {
+    if (shown || sess(KEY_SHOWN) === "1") return true;
+    var until = Number(store(KEY_CLOSED) || 0);
+    return until && Date.now() < until;
+  }
+  function feats() {
+    if (FEATS.length) return FEATS;
+    var out = [];
+    var lis = pro.querySelectorAll(".feat-list li");
+    for (var i = 0; i < lis.length && out.length < 3; i++) {
+      var all = lis[i].textContent.replace(/\s+/g, " ").trim();
+      if (/スマホ|HTMLファイル|パソコンで使う/.test(all)) continue;
+      var st = lis[i].querySelectorAll("strong");
+      var t = st.length === 1 ? st[0].textContent : all.split(/[::。]/)[0];
+      t = t.replace(/[((][^()()]*[))]/g, "").replace(/\s+/g, " ").trim();
+      if (t.length > 40) t = t.slice(0, 39) + "…";
+      if (t) out.push(t);
+    }
+    return out;
+  }
+  // 「〜してください」「できません」など、失敗の表示が出ていたら案内しない
+  function failed() {
+    var els = document.querySelectorAll('[role="status"], [role="alert"], [aria-live]');
+    for (var i = 0; i < els.length; i++) {
+      if (pro.contains(els[i]) || !els[i].offsetParent) continue;
+      if (/ください|できません|できませんでした|失敗|ありません|エラー/.test(els[i].textContent)) return true;
+    }
+    return false;
+  }
+  function proVisible() {
+    var r = pro.getBoundingClientRect();
+    return r.top < innerHeight && r.bottom > 0;
+  }
+  function show(trigger) {
+    if (!pc || blocked() || (trigger === "action" && failed()) || proVisible()) return;
+    var list = feats();
+    if (!list.length) return;
+    shown = true;
+    sess(KEY_SHOWN, "1");
+    var box = document.createElement("aside");
+    box.className = "upsell-toast";
+    box.setAttribute("aria-label", "買い切り版のご案内");
+    box.setAttribute("aria-live", "polite");
+    document.body.appendChild(box);
+    var p = document.createElement("p");
+    p.textContent = trigger === "limit"
+      ? "この先は買い切り版の機能です。パソコン用の買い切り版(¥100・税込)なら:"
+      : "うまくできましたか? パソコン用の買い切り版(¥100・税込)なら、さらに:";
+    var ul = document.createElement("ul");
+    list.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+    var a = document.createElement("a");
+    a.className = "upsell-go";
+    a.id = "upsellToastLink";
+    a.href = buy.href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = "BOOTHで見る(新しいタブ)";
+    var bg = getComputedStyle(buy).backgroundColor;
+    if (bg && !/rgba?\(0, 0, 0, 0\)|transparent/.test(bg)) a.style.background = bg;
+    var x = document.createElement("button");
+    x.type = "button";
+    x.className = "upsell-x";
+    x.setAttribute("aria-label", "この案内を閉じる");
+    x.textContent = "×";
+    function close(remember) {
+      if (box.parentNode) box.parentNode.removeChild(box);
+      document.removeEventListener("keydown", onKey);
+      if (remember) store(KEY_CLOSED, String(Date.now() + 7 * 864e5));
+    }
+    // Escはページ側の操作(選択解除など)にも使われるので、案内の中にフォーカスがある時だけ閉じる
+    function onKey(e) { if (e.key === "Escape" && box.contains(document.activeElement)) close(true); }
+    x.addEventListener("click", function () { close(true); });
+    a.addEventListener("click", function () { setTimeout(function () { close(false); }, 0); });
+    document.addEventListener("keydown", onKey);
+    setTimeout(function () {
+      var note = document.createElement("small");
+      note.className = "upsell-note";
+      note.textContent = "スマホではファイルを開けない機種があります";
+      box.appendChild(x); box.appendChild(p); box.appendChild(ul); box.appendChild(a); box.appendChild(note);
+    }, 50);
+    gtagEv("upsell_show", { trigger: trigger });
+  }
+
+  // 保存・コピー・印刷・書き出しを押した直後(結果を受け取れたタイミング)
+  var OK = /保存|コピー|印刷|書き出|ダウンロード|共有|PDF/;
+  var NG = /読み込|リセット|消|削除|このブラウザに保存|確認|イメージを見る|戻/;
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest ? e.target.closest("button, a[download], input[type=button], input[type=submit]") : null;
+    if (!el || el.closest("#pro-section, .upsell-toast, #anshin")) return;
+    var label = (el.textContent || el.value || "").replace(/\s+/g, " ");
+    if (!OK.test(label) || NG.test(label)) return;
+    setTimeout(function () { show("action"); }, 1500);
+  }, true);
+
+  // 無料版の上限まわり
+  // (1) ページが出す「買い切り版」の一文に、購入欄へのリンクを足す(スマホでも)。🔒のタブは薄く表示されているので入れない
+  // (2) 案内(パソコンのみ)は、はっきりした合図のときだけ出す: 🔒のクリック・買い切り版にふれたalert・
+  //     初めて出た「〜まで/のみ/以降/入っていません」の上限の一文(計算のたびに出る誘導文や、同じ文の描き直しでは出さない)
+  var SKIP = "#pro-section, .upsell-toast, .upsell-top, #anshin, a, button, label, select, option, h1, h2, h3, .badge, header, footer, nav, textarea, pre, code, [contenteditable], svg";
+  var LIMIT = /まで|のみ|以降|入っていません/;
+  var seenText = {}, ready = false;
+  function goPro(e) {
+    if (e) e.preventDefault();
+    pro.setAttribute("tabindex", "-1");
+    pro.scrollIntoView({ behavior: "smooth", block: "start" });
+    pro.focus({ preventScroll: true });
+  }
+  function linkify(root, deep) {
+    var limitHit = false;
+    var els = root.matches("p, div, span, li") ? [root] : [];
+    if (deep) els = els.concat([].slice.call(root.querySelectorAll("p, div, span, li")));
+    els.forEach(function (el) {
+      if (el.closest(SKIP) || el.closest('[role="radio"], [role="option"], [role="tab"], [role="button"], [tabindex]:not([tabindex="-1"])') || el.querySelector("a, button, p, div, li, input, label")) return;
+      // 選択肢の「○○(買い切り版)」ではなく、文として買い切り版にふれている要素だけ
+      var own = "";
+      for (var n = el.firstChild; n; n = n.nodeType === 1 && n.className === "upsell-inline" ? null : n.nextSibling) if (n.nodeType === 3) own += n.nodeValue;
+      own = own.trim();
+      if (own.indexOf("買い切り版") < 0 || /[((]買い切り版[))]$/.test(own) || /^🔒/.test(own)) return;
+      var key = own.replace(/\d+/g, "#");
+      if (ready && !seenText[key] && LIMIT.test(own) && !el.closest(".teaser, #teaser, [id$=teaser], #tz")) limitHit = true;
+      seenText[key] = 1;
+      if (el.querySelector(".upsell-inline")) return;
+      var a = document.createElement("a");
+      a.className = "upsell-inline";
+      a.href = "#pro-section";
+      a.setAttribute("aria-label", "くわしく:買い切り版の説明へ移動");
+      a.textContent = "くわしく";
+      var ar = document.createElement("span");
+      ar.setAttribute("aria-hidden", "true");
+      ar.textContent = " ↓";
+      a.appendChild(ar);
+      a.addEventListener("click", goPro);
+      el.appendChild(document.createTextNode(" "));
+      el.appendChild(a);
+    });
+    return limitHit;
+  }
+  linkify(document.body, true);
+  setTimeout(function () { ready = true; }, 1500);
+  var topLink = document.querySelector("#upsellTop a");
+  if (topLink) topLink.addEventListener("click", goPro);
+  new MutationObserver(function (ms) {
+    // 変わったところだけを調べる(足された要素はその中も、文字の変更は親要素だけ)
+    var hit = false, done = new Set();
+    function check(t, deep) {
+      if (!t || t.nodeType !== 1 || done.has(t) || t.closest(".upsell-toast")) return;
+      done.add(t);
+      if (linkify(t, deep)) hit = true;
+    }
+    ms.forEach(function (m) {
+      if (m.type === "characterData") { check(m.target.parentNode, false); return; }
+      check(m.target, false);
+      for (var i = 0; i < m.addedNodes.length; i++) if (m.addedNodes[i].nodeType === 1) check(m.addedNodes[i], true);
+    });
+    if (hit) setTimeout(function () { show("limit"); }, 800);
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest ? e.target.closest("button, div, span, li") : null;
+    var first = el && el.firstChild && el.firstChild.nodeType === 3 ? el.firstChild.nodeValue : "";
+    if (!/^\s*🔒/.test(first) || e.target.closest("#pro-section")) return;
+    if (pc) setTimeout(function () { show("limit"); }, 300); else goPro();
+  }, true);
+  var origAlert = window.alert;
+  window.alert = function (msg) {
+    var r = origAlert.apply(window, arguments);
+    if (/買い切り版/.test(String(msg))) setTimeout(function () { show("limit"); }, 300);
+    return r;
+  };
+})();
+</script>
+<!--UPSELL_JS_END-->
+</body>
+</html>
