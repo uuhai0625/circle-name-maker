@@ -18,7 +18,7 @@
     gtag('js', new Date());
     gtag('config', GA_ID);
     document.addEventListener('click', function(e) {
-      var a = e.target && e.target.closest ? e.target.closest('a[href*="booth.pm"]') : null;
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="booth.pm"]:not([href*="/search"])') : null;
       if (!a) return;
       gtag('event', 'booth_click', { link_url: a.href, link_id: a.id || '', link_text: (a.textContent || '').trim().slice(0, 40) });
     });
