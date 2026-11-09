@@ -200,6 +200,7 @@
       
     </div>
     <div class="status" id="favSt" role="status"></div>
+    <div class="no-print" id="favShareRow" hidden style="margin:.75rem 0 0;"><button type="button" class="btn small" id="favShareBtn" style="min-height:44px;">残した候補をXで相談する(新しいタブで投稿画面が開きます)</button><span class="hint">押すとXの投稿画面を開き、最初の3件とこのページのURLをXに渡します。公開は投稿したときだけです。</span></div>
   </section>
 
   <section class="card" id="logo-card">
@@ -245,8 +246,17 @@
         <li><strong>パソコンで使うHTMLファイルです</strong>(スマホでの動作は保証していません)。ダブルクリックで開くだけ、ネットにつながっていなくても使えます</li>
       </ul>
 <!--UPSELL_ASSURE_START--><ul class="upsell-assure" aria-label="買い切り版について"><li>¥100(税込)の1回払い・月額なし</li><li>パソコン向けのHTMLファイル(スマホでは開けない機種あり)</li><li>ネットにつながっていなくても動く</li><li>BOOTHで購入(クレジットカード・楽天ペイは手数料なし、コンビニ・銀行払いは別途手数料)</li></ul><!--UPSELL_ASSURE_END-->
-      <a class="buy-btn" href="https://uuhai0625.booth.pm/items/8989757" id="buyLink" target="_blank" rel="noopener">買い切り版を見る(BOOTH・新しいタブ)</a><p class="set-note no-print" style="margin:.75rem 0 0;font-size:.9rem;text-align:center">このツールを含むセットもあります: <a href="https://uuhai0625.booth.pm/items/9123926" id="setLink" target="_blank" rel="noopener" style="display:inline-block;padding:.4rem 0">同人誌づくり8本セット ¥500(1本ずつなら¥800・BOOTH・新しいタブ)</a></p><!--UPSELL_TERMS_START--><p class="upsell-terms">販売者の情報・返品などの販売条件は、BOOTHの商品ページでご確認ください。BOOTHでの購入にはpixivのアカウントが必要です。</p><!--UPSELL_TERMS_END-->
+      <a class="buy-btn" href="https://uuhai0625.booth.pm/items/8989757" id="buyLink" target="_blank" rel="noopener">買い切り版を見る(BOOTH・新しいタブ)</a><!--UPSELL_TERMS_START--><p class="upsell-terms">販売者の情報・返品などの販売条件は、BOOTHの商品ページでご確認ください。BOOTHでの購入にはpixivのアカウントが必要です。</p><!--UPSELL_TERMS_END--><p class="set-note no-print" style="margin:.75rem 0 0;font-size:.9rem;text-align:center">このツールを含むセットもあります: <a href="https://uuhai0625.booth.pm/items/9123926" id="setLink" target="_blank" rel="noopener" style="display:inline-block;padding:.4rem 0">同人誌づくり8本セット ¥500(1本ずつなら¥800・BOOTH・新しいタブ)</a></p>
     </div>
+  </section>
+
+  <section class="card no-print">
+    <h2>同人誌を作るなら</h2>
+    <ul style="margin:.25rem 0 0;padding-left:1.25rem;">
+      <li><a href="https://uuhai0625.github.io/daiwari-maker/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;">台割作成ツール(本のページ割りを決める・新しいタブ)</a></li>
+      <li><a href="https://uuhai0625.github.io/doujin-okuzuke-maker/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;">奥付メーカー(本の最後のページに入れる・新しいタブ)</a></li>
+      <li><a href="https://uuhai0625.github.io/oshinagaki-maker/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;">お品書きメーカー(イベントの机に置く一覧・新しいタブ)</a></li>
+    </ul>
   </section>
 
   <section class="card guide" id="guide">
@@ -303,6 +313,7 @@
   <ul>
     <li>会員登録・ログイン・メールアドレスの入力はありません。</li>
     <li>例外: 候補の「かぶりを調べる」で検索を押したときだけ、その候補名(入れた言葉を含むことがあります)が検索サイト(Google・X・BOOTH)に送られ、新しいタブで開きます。ログイン中は検索履歴に残ることがあります。</li>
+    <li>例外: 残した候補の「Xで相談する」を押すと、候補3件までとページのURLがXの投稿画面に渡り、新しいタブで開きます。公開されるのは自分で投稿したときだけです。</li>
     <li>自分で確かめたい方へ: ページを開いたあと機内モードにしても、そのまま使えます。</li>
   </ul>
   <details>
@@ -314,12 +325,12 @@
       <li>処理の中身はすべて公開しています(詳しい方向け: <a href="https://github.com/uuhai0625/circle-name-maker" target="_blank" rel="noopener">GitHub</a>)。</li>
     </ul>
   </details>
-  <p class="anshin-meta">作っている人: ウーハイ(個人開発)/不具合・ご質問は<a href="https://x.com/uuhai0625" target="_blank" rel="noopener">X(@uuhai0625)</a>へ/<a href="https://uuhai0625.github.io/" target="_blank" rel="noopener">ほかのツール</a>/この説明の更新日: 2026-10-13</p>
+  <p class="anshin-meta">作っている人: ウーハイ(個人開発)/不具合・ご質問は<a href="https://x.com/uuhai0625" target="_blank" rel="noopener">X(@uuhai0625)</a>へ/<a href="https://uuhai0625.github.io/" target="_blank" rel="noopener">ほかのツール</a>/この説明の更新日: 2026-11-10</p>
 </section>
 <!--ANSHIN_END-->
 
 <footer>
-  <p id="privacyNote">本ツールは完全にブラウザ内で動作し、入力した内容はどこにも送信されません(「かぶりを調べる」を押したときだけ、その候補名を検索サイトに渡します)。</p>
+  <p id="privacyNote">本ツールは完全にブラウザ内で動作し、入力した内容はどこにも送信されません(「かぶりを調べる」を押すと候補名を検索サイトに、「Xで相談する」を押すと残した候補3件までをXに渡します。ほかは送信しません)。</p>
   <p><a href="https://uuhai0625.booth.pm/" target="_blank" rel="noopener">他のツールも見る(BOOTHショップ)</a></p>
   <p>不具合・ご要望は X <a href="https://x.com/uuhai0625" target="_blank" rel="noopener">@uuhai0625</a> まで。</p>
   <p class="related-tools no-print">関連する無料ツール: <a href="https://uuhai0625.github.io/circle-cut-maker/" target="_blank" rel="noopener">サークルカットメーカー</a> ・ <a href="https://uuhai0625.github.io/circle-card-maker/" target="_blank" rel="noopener">サークルカードメーカー</a> ・ <a href="https://uuhai0625.github.io/oshinagaki-maker/" target="_blank" rel="noopener">お品書きメーカー</a> ・ <a href="https://uuhai0625.github.io/doujin-okuzuke-maker/" target="_blank" rel="noopener">奥付メーカー</a> ・ <a href="https://uuhai0625.github.io/#free-tools">ツール一覧</a></p>
@@ -582,7 +593,9 @@
       li.appendChild(lb); li.appendChild(rb);
       ul.appendChild(li);
     });
+    updateFavShare();
   }
+  function updateFavShare() { $("favShareRow").hidden = !state.favs.length; }
   function copyText(t, stId, btn) {
     function done() {
       setSt(stId, "コピーしました。");
@@ -729,6 +742,13 @@
     setSt("listSt", "");
     track("name_generate", { kind: state.kind, moods: state.moods.length, words: state.words.length });
   });
+  $("favShareBtn").addEventListener("click", function () {
+    var names = state.favs.slice(0, 3).map(function (f) { return "・" + f.n; }).join("\n");
+    var text = "名前の候補、どれがいいかな\n" + names + "\n";
+    var page = "https://uuhai0625.github.io/circle-name-maker/?utm_source=x&utm_medium=social&utm_campaign=share_circle_name";
+    window.open("https://x.com/intent/post?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(page), "_blank", "noopener");
+    track("fav_share", { count: Math.min(state.favs.length, 3) });
+  });
   $("copyFavBtn").addEventListener("click", function () {
     if (!state.favs.length) { setSt("favSt", "残した候補がありません。", true); return; }
     copyText(state.favs.map(function (f) { return f.n + (f.r ? "(" + f.r + ")" : ""); }).join("\n"), "favSt");
@@ -739,7 +759,7 @@
 
   
   if (EDITION !== "full") {
-    $("privacyNote").innerHTML = '入力した内容はどこにも送信されません(すべてこのブラウザの中で処理します。「かぶりを調べる」を押したときだけ、その候補名を検索サイトに渡します)。このページでは利用状況の把握のためにアクセス解析(Google Analytics)を使っています。<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Googleによるデータの使用について</a>';
+    $("privacyNote").innerHTML = '入力した内容はどこにも送信されません(すべてこのブラウザの中で処理します。「かぶりを調べる」を押すと候補名を検索サイトに、「Xで相談する」を押すと残した候補3件までをXに渡します。ほかは送信しません)。このページでは利用状況の把握のためにアクセス解析(Google Analytics)を使っています。<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Googleによるデータの使用について</a>';
   }
 
   load();
