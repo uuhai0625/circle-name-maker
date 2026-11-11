@@ -94,7 +94,7 @@
   .cand .acts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .cand details { font-size: .8rem; margin-top: 4px; }
   .cand details summary { cursor: pointer; color: var(--accent-dark); min-height: 44px; display: list-item; padding-top: 10px; }
-  .cand details a { display: inline-flex; align-items: center; min-height: 44px; margin-right: 14px; color: var(--accent-dark); }
+  .cand details .srch { display: inline-flex; align-items: center; min-height: 44px; margin-right: 14px; padding: 0; border: 0; background: none; font: inherit; color: var(--accent-dark); text-decoration: underline; cursor: pointer; }
   .favs { list-style: none; margin: 10px 0 0; padding: 0; }
   .favs li { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding: 8px 0; }
   .favs .nm { font-weight: bold; flex: 1 1 160px; word-break: break-all; }
@@ -545,10 +545,11 @@
       var d = el("details");
       d.appendChild(el("summary", "", "かぶりを調べる(新しいタブで検索)"));
       searchLinks(c.n).forEach(function (p) {
-        var a = el("a", "", p[0]);
-        a.href = p[1]; a.target = "_blank"; a.rel = "noopener noreferrer";
+        // aタグにするとGA4の自動計測(外部リンクのクリック)が候補名入りのURLを送るので、ボタン+window.openにしている
+        var a = el("button", "srch", p[0]);
+        a.type = "button";
         a.setAttribute("aria-label", p[0] + "で「" + c.n + "」を検索(新しいタブ)");
-        a.addEventListener("click", function () { track("name_search", { site: p[0] }); });
+        a.addEventListener("click", function () { window.open(p[1], "_blank", "noopener,noreferrer"); track("name_search", { site: p[0] }); });
         d.appendChild(a);
       });
       li.appendChild(d);
